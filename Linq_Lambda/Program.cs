@@ -68,7 +68,8 @@ namespace Linq_Lambda
 
             var r15 = products.Where(p => p.Category.Id == 1).Select(p => p.Price).Aggregate(0.0, (x, y) => x + y);
 
-            var r16 = products.GroupBy(p => p.Category);
+            //var r16 = products.GroupBy(p => p.Category);
+            var r16 = from p in products group p by p.Category;
 
 
             Print("ALL PRODUCTS", products);
@@ -87,15 +88,15 @@ namespace Linq_Lambda
             //Console.WriteLine($"Average of the prices of products of Category 5: {r14}");
             //Console.WriteLine($"Agregate Sum of products of category 1: {r15}");
 
-            //foreach (IGrouping<Category, Product> group in r16)
-            //{
-            //    Console.WriteLine($"\n{group.Key.Id}    \t{group.Key.Name}    \t{group.Key.Tier}\n");
+            foreach (IGrouping<Category, Product> group in r16)
+            {
+                Console.WriteLine($"\n{group.Key.Id}    \t{group.Key.Name}    \t{group.Key.Tier}\n");
 
-            //    foreach (var product in group)
-            //    {
-            //        Console.WriteLine($"{product}");
-            //    }
-            //}
+                foreach (var product in group)
+                {
+                    Console.WriteLine($"{product}");
+                }
+            }
 
 
             Console.ReadKey();
