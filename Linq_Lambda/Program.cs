@@ -44,6 +44,9 @@ namespace Linq_Lambda
             var r11 = products.Min(p => p.Price);
             var r12 = products.Where(p => p.Category.Id == 1).Sum(p => p.Price);
             var r13 = products.Where(p => p.Category.Id == 1).Average(p => p.Price);
+            var r14 = products.Where(p => p.Category.Id == 5).Select(p => p.Price).DefaultIfEmpty(0.0).Average();
+            var r15 = products.Where(p => p.Category.Id == 1).Select(p => p.Price).Aggregate(0.0, (x, y) => x + y);
+            var r16 = products.GroupBy(p => p.Category);
 
 
             Print("ALL PRODUCTS", products);
@@ -59,7 +62,18 @@ namespace Linq_Lambda
             Console.WriteLine($"Min value per Price: \n{r11}");
             Console.WriteLine($"Sum of the prices of products of Category 1: {r12}");
             Console.WriteLine($"Average of the prices of products of Category 1: {r13}");
+            Console.WriteLine($"Average of the prices of products of Category 5: {r14}");
+            Console.WriteLine($"Agregate Sum of products of category 1: {r15}");
 
+            foreach (IGrouping<Category, Product> group in r16)
+            {
+                Console.WriteLine($"\n{group.Key.Id}    \t{group.Key.Name}    \t{group.Key.Tier}\n");
+
+                foreach (var product in group)
+                {
+                    Console.WriteLine($"{product}");
+                }
+            }
 
 
             Console.ReadKey();
